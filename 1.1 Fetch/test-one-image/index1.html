@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <img src="" alt="ff" id="nature" width="240" /> -->
+
+    <script>
+      (async () => {
+        try {
+          const response = await fetch("nature.jpg");
+          const blob = await response.blob();
+          console.log("url:", response.url);
+
+          const img = document.createElement("img");
+          //   img.src = URL.createObjectURL(blob);
+          img.src = response.url;
+          img.width = 240;
+          img.alt = "ff";
+          document.body.appendChild(img);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      })();
+    </script>
+  </body>
+</html>

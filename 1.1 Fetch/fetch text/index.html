@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch Text</title>
+  </head>
+  <body>
+    <p id="story"></p>
+    <script>
+      async function fetchText() {
+        try {
+          const response = await fetch("story.txt");
+          console.log(response);
+
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+          const text = await response.text();
+          document.getElementById("story").textContent = text;
+        } catch (error) {
+          console.error(
+            "There has been a problem with your fetch operation:",
+            error
+          );
+        }
+      }
+      fetchText();
+      // Uncomment the line below to fetch the text again after 5 seconds
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart.js Example</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <canvas id="myChart"></canvas>
+    <!-- <p id="csvdata"></p> -->
+
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [12, 19, 3, 5, 2, 3],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      getDataCsv();
+      async function getDataCsv() {
+        try {
+          const response = await fetch("testdata.csv");
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+          const text = await response.text();
+          //   console.log("text", text);
+          //   document.getElementById("csvdata").textContent = text;
+          const lines = text.split("\n");
+          lines.splice(0, 1);
+          //   console.log(lines);
+          const x = lines.map((line) => line.split(",")[0]);
+          const y = lines.map((line) => line.split(",")[1]);
+          //   console.log("x", x);
+          //   console.log("y", y);
+
+          //   lines.map((line) => {
+          //     const [name, value] = line.split(",");
+          //     console.log(name, value);
+          //     return { name, value: parseInt(value) };
+          //   });
+
+          return { x, y };
+        } catch (error) {
+          console.error(
+            "There has been a problem with your fetch operation:",
+            error
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

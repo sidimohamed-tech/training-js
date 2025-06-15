@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png.bmp" type="image/x-icon" />
+    <title>Test 1</title>
+  </head>
+  <body>
+    <img src="" alt="ff" id="nature" width="240" />
+
+    <script>
+      async function getData() {
+        try {
+          const response = await fetch("nature.jpg");
+          console.log(response);
+          const blob = await response.blob();
+          console.log(blob);
+          document.getElementById("nature").src = URL.createObjectURL(blob);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      getData();
+    </script>
+  </body>
+</html>

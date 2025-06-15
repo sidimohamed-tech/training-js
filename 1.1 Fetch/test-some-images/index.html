@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png.bmp" type="image/x-icon">
+    <title>Test 1</title>
+</head>
+<body>
+    <img src="" alt="image1" id ="image1">
+    <img src="" alt="image2" id ="image2">
+    <img src="" alt="image3" id ="image3">
+    
+    <script>
+    async function getImages(url,id){
+        const response=await fetch(url);
+        console.log(response);
+        const blob=await response.blob();
+        console.log(blob);
+        document.getElementById(id).src=URL.createObjectURL(blob);
+    }
+    getImages('RRR.jpg','IMG_3715.jpg');
+    getImages('RRR.jpg','image2');
+    getImages('RRR.jpg','image3')
+
+    </script>
+</body>
+</html>

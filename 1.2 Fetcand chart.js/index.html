@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart.js Example</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <canvas id="myChart" width="800" height="600"></canvas>
+    <!-- <p id="csvdata"></p> -->
+
+    <script>
+      const ctx = document.getElementById("myChart");
+      //   let x = [];
+      //   let y = [];
+
+      async function graphic() {
+        const data = await getDataCsv();
+        console.log("data", data);
+        x = data.x;
+        y = data.y;
+
+        console.log("x", x);
+        console.log("y", y);
+        new Chart(ctx, {
+          //   type: "bar",
+          type: "line",
+          data: {
+            labels: data.x,
+            datasets: [
+              {
+                label: "# of Votes",
+                data: data.y,
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+          },
+        });
+      }
+      graphic();
+
+      async function getDataCsv() {
+        try {
+          const response = await fetch("allData.csv");
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+          const text = await response.text();
+          //   console.log("text", text);
+          //   document.getElementById("csvdata").textContent = text;
+          const lines = text.split("\n");
+          lines.splice(0, 1);
+          //   console.log(lines);
+          let x = lines.map((line) => line.split(",")[0]);
+          let y = lines.map((line) => parseFloat(line.split(",")[1]) + 14);
+
+          //   console.log("x", x);
+          console.log("y", y);
+
+          //   lines.map((line) => {
+          //     const [name, value] = line.split(",");
+          //     console.log(name, value);
+          //     return { name, value: parseInt(value) };
+          //   });
+
+          return { x, y };
+        } catch (error) {
+          console.error(
+            "There has been a problem with your fetch operation:",
+            error
+          );
+        }
+      }
+    </script>
+  </body>
+</html>
